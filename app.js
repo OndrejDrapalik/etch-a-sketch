@@ -1,9 +1,8 @@
 const sketchField = document.querySelector('.sketchField');
 
 
-//Change add input for the user
-//possibly add slider that is connected to some kind of listener to this func 
-let insertCollumnsRows = 20;
+//Initiating the default grid layout
+let insertCollumnsRows = 32;
 let multiplied = insertCollumnsRows * insertCollumnsRows;
 
 function insertDivs() {
@@ -16,48 +15,73 @@ function insertDivs() {
         div.classList.add('divItem');
         sketchField.appendChild(div)
     }
-    
 }
 
-console.log("test1")
 
-//hmm, for some reason selecting individual items does not work at all
-    // let item = document.querySelectorAll('.divItem');
-    // item.forEach(element => {
-    //     element.addEventListener('mouseenter', changeBackground);
-    //   });
-    // function changeBackground(e) {
-    //         e.target.style.background = "black"; 
-    // }
+//changing lyout size based on the slides change
+let rangeInput = document.getElementById("myRange");
+rangeInput.addEventListener("change", changeSize);
+rangeInput.addEventListener("change", updateDivs); //the problem with this is it insers new does each time, needs to be replaced rather
+
+function changeSize() {
+    console.log(rangeInput.value);
+    //Need to declare new variables, overwriting "insertCollumnsRows" dows not work right, I'm too lazy to figuout why atm
+    newCollumns = rangeInput.value;
+    newRows = rangeInput.value;
+}
+
+function updateDivs() {
+    removeAllChildNodes();
+    sketchField.style.setProperty('grid-template-columns', 'repeat(' + newCollumns + ', auto)');
+    sketchField.style.setProperty('grid-template-rows', 'repeat(' + newRows + ', auto)');
+    
+    for (i = 0; i < newCollumns * newRows; i++) {
+        div = document.createElement('div');
+        div.classList.add('divItem');
+        sketchField.append(div)
+    }
+}
+
+function removeAllChildNodes() {
+    sketchField.innerHTML = '';
+}
 
 
+//Core app fucntion of changing div color
 // https://developer.mozilla.org/en-US/docs/Web/API/Element/mouseover_event
 //also this https://simplernerd.com/js-click-parent/ 
 sketchField.addEventListener('mouseover', changeBackground);
 
 function changeBackground(e) {
-
     if (e.target !== e.currentTarget) { // this is the same as e.currentTarget
         console.log("child clicked")
-        // e.target.style.background = "black"; //changing color direcly
-        e.target.className = 'divItemChanged'; //changing it via class
+        e.target.style.background = "black"; //changing color direcly
+        // e.target.className = 'divItemChanged'; //changing it via class
     }   else  { 
         console.log("parent clicked")
         }
-    // console.log("ass")
-    // e.target.style.background = "black"; 
-    //problem when you haver over ther actual sketchField - it covers it in black too, the problem is event bubbles
 }
 
-console.log("test2")
 
+//Displaying Grid size on the screen
+let slider = document.getElementById("myRange");
+let output = document.getElementById("gridSize");
+output.innerHTML = slider.value; // Display the default slider value
 
-//function that changes background of the div based on the mouse over - it switches
-//class to background: black after mouseover or mouse click down
+// Update the current slider value (each time you drag the slider handle)
+slider.oninput = function() {
+  output.innerHTML = this.value;
 
-//button that resets it
-
-//maybe change layout input of button 
+}
 
 
 insertDivs();
+
+
+//TODO
+    //clear button that resets canvas
+    //Color switch from black to RGB
+    //make it so it draws onfy if mouse is pushed down function that fires changBackground() many times fas when dolding a mouse button down
+
+//DONE
+    //Add slider or user prompt
