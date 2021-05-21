@@ -59,7 +59,7 @@ sketchField.addEventListener('mouseup', mouseFin, false);
 sketchField.addEventListener('mousedown', inBetween, false);
 
 function inBetween() {
-    sketchField.addEventListener('mousemove', changeBackground, false)
+    sketchField.addEventListener('mouseover', changeBackground, false)
 }
 
 function changeBackground(e) {
@@ -78,7 +78,7 @@ function changeBackground(e) {
 }
 
 function mouseFin() {
-    sketchField.removeEventListener('mousemove', changeBackground, false);
+    sketchField.removeEventListener('mouseover', changeBackground, false);
 }
 
 
@@ -99,6 +99,8 @@ insertDivs();
 
 
 //TODO
+    // toggle lightener /shadower button option
+    //custom color picker button
 
  
 
