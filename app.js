@@ -18,6 +18,12 @@ function insertDivs() {
 }
 
 
+//Logic is the same based as the one on the slider event listener
+const resetButton = document.querySelector('#resetButton');
+resetButton.addEventListener("click", changeSize);
+resetButton.addEventListener("click", updateDivs);
+
+
 //changing lyout size based on the slides change
 let rangeInput = document.getElementById("myRange");
 rangeInput.addEventListener("change", changeSize);
@@ -47,20 +53,34 @@ function removeAllChildNodes() {
 }
 
 
-//Core app fucntion of changing div color
-// https://developer.mozilla.org/en-US/docs/Web/API/Element/mouseover_event
-//also this https://simplernerd.com/js-click-parent/ 
-sketchField.addEventListener('mouseover', changeBackground);
+// https://stackoverflow.com/questions/9449218/cancel-function-on-mouse-up
+// http://jsfiddle.net/Marcel/dATCA/
+sketchField.addEventListener('mouseup', mouseFin, false);
+sketchField.addEventListener('mousedown', inBetween, false);
+
+function inBetween() {
+    sketchField.addEventListener('mousemove', changeBackground, false)
+}
 
 function changeBackground(e) {
+
     if (e.target !== e.currentTarget) { // this is the same as e.currentTarget
-        console.log("child clicked")
-        e.target.style.background = "black"; //changing color direcly
+        console.log("mouse is over child")
+        console.log(e);
+        // e.target.style.background = "black"; //changing color direcly
         // e.target.className = 'divItemChanged'; //changing it via class
+        const colors = Math.floor(Math.random()*16777215).toString(16);
+        e.target.style.background = "#" + colors;
+
     }   else  { 
-        console.log("parent clicked")
+        console.log("mouse is over parent")
         }
 }
+
+function mouseFin() {
+    sketchField.removeEventListener('mousemove', changeBackground, false);
+}
+
 
 
 //Displaying Grid size on the screen
@@ -79,9 +99,11 @@ insertDivs();
 
 
 //TODO
-    //clear button that resets canvas
-    //Color switch from black to RGB
-    //make it so it draws onfy if mouse is pushed down function that fires changBackground() many times fas when dolding a mouse button down
+
+ 
 
 //DONE
     //Add slider or user prompt
+    //clear button that resets canvas
+    //Color switch from black to RGB
+    //make it so it draws onfy if mouse is pushed down function that fires changBackground() many times fas when dolding a mouse button down

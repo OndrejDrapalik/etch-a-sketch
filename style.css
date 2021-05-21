@@ -22,6 +22,10 @@ h1 {
     margin: 15px;
 }
 
+    #resetButton {
+        margin: 20px;
+    }
+
     .sketchField {
         height: 500px;
         width: 500px;
@@ -50,6 +54,7 @@ h1 {
         .slidecontainer {
   width: 100%; /* Width of the outside container */
 }
+
 
 .sliderTitle {
     font-family: sans-serif; color: #333;
