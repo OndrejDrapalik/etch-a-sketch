@@ -2,7 +2,7 @@ const sketchField = document.querySelector('.sketchField');
 
 
 //Initiating the default grid layout
-let insertCollumnsRows = 32;
+let insertCollumnsRows = 50;
 let multiplied = insertCollumnsRows * insertCollumnsRows;
 
 function insertDivs() {
@@ -55,32 +55,42 @@ function removeAllChildNodes() {
 
 // https://stackoverflow.com/questions/9449218/cancel-function-on-mouse-up
 // http://jsfiddle.net/Marcel/dATCA/
-sketchField.addEventListener('mouseup', mouseFin, false);
-sketchField.addEventListener('mousedown', inBetween, false);
+function drawing() {
+    sketchField.addEventListener('mouseup', mouseFin);
+    sketchField.addEventListener('mousedown', inBetween);
 
-function inBetween() {
-    sketchField.addEventListener('mouseover', changeBackground, false)
+    function inBetween() {
+        sketchField.addEventListener('mouseover', changeBackground)
+    }
+
+    function changeBackground(e) {
+
+        if (e.target !== e.currentTarget) { // this is the same as e.currentTarget
+            console.log("mouse is over child")
+            console.log(e);
+
+            if ((blackButton.classList == "blackOff") && (whiteButton.classList == "whiteOff")) {
+                const colors = Math.floor(Math.random()*16777215).toString(16);
+                e.target.style.background = "#" + colors;
+
+            } else if((randomButton.classList == "randomOff") && (whiteButton.classList == "whiteOff")) {
+                e.target.style.background = "black"; //changing color direcly
+                // e.target.className = 'divItemChanged'; //changing it via class
+                
+            } else if((randomButton.classList == "randomOff") && (blackButton.classList == "blackOff")) {
+                e.target.style.background = "white"; //changing color direcly
+                // e.target.className = 'divItemChanged'; //changing it via class
+            }
+
+        }   else  { 
+            console.log("mouse is over parent")
+            }
+    }
+
+    function mouseFin() {
+        sketchField.removeEventListener('mouseover', changeBackground);
+    }
 }
-
-function changeBackground(e) {
-
-    if (e.target !== e.currentTarget) { // this is the same as e.currentTarget
-        console.log("mouse is over child")
-        console.log(e);
-        // e.target.style.background = "black"; //changing color direcly
-        // e.target.className = 'divItemChanged'; //changing it via class
-        const colors = Math.floor(Math.random()*16777215).toString(16);
-        e.target.style.background = "#" + colors;
-
-    }   else  { 
-        console.log("mouse is over parent")
-        }
-}
-
-function mouseFin() {
-    sketchField.removeEventListener('mouseover', changeBackground, false);
-}
-
 
 
 //Displaying Grid size on the screen
@@ -94,8 +104,59 @@ slider.oninput = function() {
 
 }
 
+let randomButton = document.getElementById("random");
+let blackButton = document.getElementById("black");
+let whiteButton = document.getElementById("white");
+
+function toggleDefault() {
+    whiteButton.classList.add("whiteOff");
+    blackButton.classList.add("blackOff");
+    
+
+}
+
+function toggleRandom() {
+    randomButton.onclick = function() {
+        randomButton.classList.remove("randomOff");
+        whiteButton.classList.remove("whiteOff");
+        blackButton.classList.remove("blackOff");
+
+        whiteButton.classList.add("whiteOff");
+        blackButton.classList.add("blackOff");
+    };
+}
+
+function toggleBlack() {
+    blackButton.onclick = function() {
+        randomButton.classList.remove("randomOff");
+        whiteButton.classList.remove("whiteOff");
+        blackButton.classList.remove("blackOff");
+
+        randomButton.classList.add("randomOff");
+        whiteButton.classList.add("whiteOff");
+    };
+}
+
+function toggleWhite() {
+    whiteButton.onclick = function() {
+        randomButton.classList.remove("randomOff");
+        whiteButton.classList.remove("whiteOff");
+        blackButton.classList.remove("blackOff");
+
+        randomButton.classList.add("randomOff");
+        blackButton.classList.add("blackOff");
+    };
+}
+
 
 insertDivs();
+drawing(); //needs to be called to work
+
+toggleDefault();
+toggleRandom();
+toggleBlack(); 
+toggleWhite();
+
 
 
 //TODO

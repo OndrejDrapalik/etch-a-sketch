@@ -8,21 +8,38 @@
 
 <body>
     <h1>Etch-a-Sketch</h1>
-
-    <div class="container">
-        <button id="resetButton">Start over again</button>
-        <div class="sketchField">
+    <div class="upperBar">
+        <div class="sliderMaster">
+            <div class="sliderTitle">
+                <p>Grid size:</p>
+                <div id="gridSize"></div>
+            </div>
+            
+            <div class="slidecontainer">
+                <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
+            </div>
         </div>
-    </div>
+        
+        <div class="colorSelection">
+            <div class="colorTitle">
+                <p>Color selected:</p>
+            </div>
+            <div class="colorButtons">
+                <button id="random"></button>
+                <button id="black"></button>
+                <button id="white"></button>   
+            </div>
 
-    <div class="sliderTitle">
-        <p>Grid size:</p>
-        <div id="gridSize"></div>
+        </div>
+
     </div>
     
-    <div class="slidecontainer">
-        <input type="range" min="1" max="64" value="32" class="slider" id="myRange">
+    <div class="container">
+        <div class="sketchField"></div>
+        <button id="resetButton">Start over again</button>
     </div>
+
+
 
 </body>
 
